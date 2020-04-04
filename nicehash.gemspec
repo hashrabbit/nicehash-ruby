@@ -26,12 +26,13 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'dry-container', '~> 0.7.2'
-  spec.add_dependency 'rest-client', '~> 2.1.0'
-  spec.add_dependency 'json', '~> 2.3.0'
+  spec.add_runtime_dependency 'dry-struct', '~> 1.3.0'
+  spec.add_runtime_dependency 'rest-client', '~> 2.1.0'
+  spec.add_runtime_dependency 'json', '~> 2.3.0'
 
   spec.add_development_dependency 'bundler', '~> 2.1.4'
-  spec.add_development_dependency 'rake', '~> 13.0.1'
+  spec.add_development_dependency 'awesome_print', '~> 1.8.0'
   spec.add_development_dependency 'dotenv', '~> 2.7.5'
+  spec.add_development_dependency 'rake', '~> 13.0.1'
   spec.add_development_dependency 'rspec', '~> 3.9.0'
 end
