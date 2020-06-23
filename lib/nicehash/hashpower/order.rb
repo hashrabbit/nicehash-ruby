@@ -27,7 +27,7 @@ module Nicehash
       attribute :marketFactor, Types::IntString
       attribute :rigsCount, Types::IntString
       attribute :estimateDurationInSeconds, Types::IntString
-      attribute :bridges, Types.Array(Bridge)
+      attribute? :bridges, Types.Array(Bridge)
       attribute :organizationId, Types::Uuid
       attribute :creatorUserId, Types::Uuid
       attribute :requestId, Types::String
