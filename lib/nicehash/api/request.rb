@@ -1,19 +1,19 @@
 require 'json'
 require 'rest-client'
 require 'securerandom'
+require 'dry-initializer'
 require 'nicehash/api/failure'
 
 module Nicehash
   module Api
     class Request
-      attr_reader :method, :host, :auth, :raise_error
+      extend Dry::Initializer
 
-      def initialize(host:, method:, auth:, raise_error: false)
-        @host = host
-        @method = method
-        @auth = auth
-        @raise_error = raise_error
-      end
+      option :host
+      option :method
+      option :auth
+      option :request
+      option :raise_error, default: proc { false }
 
       def call(path:, query: {}, body: {})
         @path = path
@@ -27,7 +27,7 @@ module Nicehash
       private
 
       def response
-        RestClient::Request.execute(request_args)
+        request.call(request_args)
       rescue RestClient::ExceptionWithResponse => err
         raise ApiError.new(err.response) if raise_error
 
