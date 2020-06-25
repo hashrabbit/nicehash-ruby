@@ -3,7 +3,7 @@ require 'spec_helper'
 module Nicehash
   RSpec.describe Client do
     let(:client) {
-      Client.new(host: 'https://api2.nicehash.com', raise_api_error: true)
+      Client.new(host: 'https://api2.nicehash.com')
     }
 
     it 'contains a valid Auth object' do

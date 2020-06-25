@@ -4,14 +4,18 @@ require 'nicehash/accounting/total'
 module Nicehash
   module Accounting
     module Endpoints
+      include ExceptionEndpoints
+      exception_endpoint! :fetch_currency
+      exception_endpoint! :fetch_total
+
       def fetch_currency(currency:)
         details = get.call(path: "/main/api/v2/accounting/account2/#{currency}")
-        Currency.new(details)
+        details.fmap { |details| Currency.new(details) }
       end
 
       def fetch_total
         total = get.call(path: '/main/api/v2/accounting/accounts2/')
-        Total.new(total)
+        total.fmap { |total| Total.new(total) }
       end
     end
   end

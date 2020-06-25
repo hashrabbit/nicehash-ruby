@@ -3,7 +3,7 @@ require 'spec_helper'
 module Nicehash
   module Hashpower
     RSpec.describe Endpoints do
-      let(:client) { Client.new(raise_api_error: true) }
+      let(:client) { Client.new }
 
       describe '#fetch_my_orders(:params)' do
         let(:params) {
@@ -13,14 +13,14 @@ module Nicehash
         }
 
         it 'returns my orders, filtered by :params' do
-          orders = client.fetch_my_orders(params: params)
+          orders = client.fetch_my_orders!(params: params)
           expect(orders.size).to eq 10
         end
       end
 
       describe '#fetch_order(:id)' do
         it 'returns order details for specified :id' do
-          order = client.fetch_order(id: "2be7a100-6ac1-4aec-92a9-9819a9724e1c")
+          order = client.fetch_order!(id: "2be7a100-6ac1-4aec-92a9-9819a9724e1c")
           expect(order.alive).to eq false
         end
       end
@@ -34,7 +34,7 @@ module Nicehash
         }
 
         it 'retrieves an Order Estimated Duration' do
-          est = client.compute_estimate_duration(params: params)
+          est = client.compute_estimate_duration!(params: params)
           expect(est.to_i).to be > 0
         end
       end
@@ -47,7 +47,7 @@ module Nicehash
         }
 
         it 'retrieves a Fixed Order Price request' do
-          price = client.fixed_order_price(params: params)
+          price = client.fixed_order_price!(params: params)
           expect(price.fixedPrice).to be > 0.0
         end
       end
@@ -58,7 +58,7 @@ module Nicehash
         }
 
         it 'returns the summary' do
-          sum = client.fetch_market_summary(params: params)
+          sum = client.fetch_market_summary!(params: params)
           expect(sum.payingPrice).to be > 0.0
         end
       end

@@ -1,5 +1,3 @@
-require 'dry-initializer'
-
 module Nicehash
   class Client
     extend Dry::Initializer
@@ -8,7 +6,6 @@ module Nicehash
     option :api_key, default: proc { ENV['NICEHASH_API_KEY'] },        reader: :private
     option :api_secret, default: proc { ENV['NICEHASH_API_SECRET'] },  reader: :private
     option :org_id, default: proc { ENV['NICEHASH_ORGANIZATION_ID'] }, reader: :private
-    option :raise_api_error, default: proc { false }
     option :request, default: proc { ->(args) { RestClient::Request.execute(args) } }
 
     include Info::Endpoints
@@ -35,19 +32,18 @@ module Nicehash
       raise ParamsError.new(klass)
     end
 
-    private
-
     def auth
       @auth ||= Api::Auth.new(key: api_key, secret: api_secret, org_id: org_id)
     end
+
+    private
 
     def api_opts(method)
       {
         host: host,
         method: method,
         auth: auth,
-        request: request,
-        raise_error: raise_api_error
+        request: request
       }
     end
   end

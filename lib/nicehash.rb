@@ -1,5 +1,22 @@
+require 'dry-initializer'
+require 'dry/monads'
+require 'dry/monads'
+require 'dry/monads/do'
+
 module Nicehash
   Error = Class.new(StandardError)
+
+  class ClientError < Error
+    def initialize(value)
+      super("Client error: #{value}")
+    end
+  end
+
+  class JsonError < Error
+    def initialize(value)
+      super("Error handling JSON: #{value}")
+    end
+  end
 
   class ApiError < Error
     attr_reader :code, :error_id, :errors
@@ -25,6 +42,7 @@ require 'nicehash/time'
 require 'nicehash/types'
 require 'nicehash/api'
 require 'nicehash/server_time'
+require 'nicehash/exception_endpoints'
 require 'nicehash/info'
 require 'nicehash/accounting'
 require 'nicehash/hashpower'
