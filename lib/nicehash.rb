@@ -22,10 +22,9 @@ module Nicehash
     attr_reader :code, :error_id, :errors
 
     def initialize(response)
-      body = JSON.parse(response.body)
-      @code = response.code
-      @error_id = body['error_id']
-      @errors = body['errors']
+      @code = response['code']
+      @error_id = response['error_id']
+      @errors = response['errors']
       super("Code: #{code}\nError_id: #{error_id}\n#{errors.join('\n')}")
     end
   end

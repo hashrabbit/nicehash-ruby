@@ -37,8 +37,8 @@ module Nicehash
         Success(request.call(request_args))
       rescue RestClient::ExceptionWithResponse => err
         parse(err.response.body)
-          .or  { |_| Failure(ApiError.new(err.response)) }
-          .bind { |res| Failure(ApiError.new(res.merge(code: err.response.code))) }
+          .or  { |err| Failure(JsonError.new(err)) }
+          .bind { |parsed| Failure(ApiError.new(parsed.merge(code: err.response.code))) }
       end
 
       def request_args
