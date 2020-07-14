@@ -1,13 +1,10 @@
-require 'json'
 require 'rest-client'
 require 'securerandom'
-require 'nicehash/api/failure'
 
 module Nicehash
   module Api
     class Request
-      include Dry::Monads[:result, :try]
-      include Dry::Monads::Do.for(:call)
+      include Dry::Monads[:result]
       extend Dry::Initializer
 
       option :host
@@ -22,23 +19,15 @@ module Nicehash
         @nonce = SecureRandom.uuid
         @time_ms = Time.now.to_ms.to_s
 
-        response = yield make_request
-        parse(response.body).or { |err| Failure(JsonError.new(err)) }
+        make_request
       end
 
       private
 
-      def parse(json)
-        Try(JSON::ParserError) { JSON.parse(json) }
-          .to_result
-      end
-
       def make_request
         Success(request.call(request_args))
       rescue RestClient::ExceptionWithResponse => err
-        parse(err.response.body)
-          .or  { |err| Failure(JsonError.new(err)) }
-          .bind { |parsed| Failure(ApiError.new(parsed.merge(code: err.response.code))) }
+        Failure(ApiError.new(err))
       end
 
       def request_args
