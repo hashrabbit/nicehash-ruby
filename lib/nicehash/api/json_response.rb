@@ -10,7 +10,7 @@ module Nicehash
           .or do |err|
             parse(err.response.body)
               .or { |err| Failure(JsonError.new(err)) }
-              .bind { |parsed| Failure(ApiError.new(parsed.merge(code: err.response.code))) }
+              .bind { |parsed| Failure(ApiError.new(parsed.merge('code' => err.response.code))) }
           end
           .bind do |response|
             parse(response.body)

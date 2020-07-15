@@ -27,7 +27,7 @@ module Nicehash
       def make_request
         Success(request.call(request_args))
       rescue RestClient::ExceptionWithResponse => err
-        Failure(ApiError.new(err))
+        Failure(err)
       end
 
       def request_args
