@@ -15,15 +15,15 @@ module Nicehash
     include Pools::Endpoints
 
     def get
-      @get ||= Api::Call(request: Api::Request.new(api_opts(:get)))
+      @get ||= Api.Call(request: Api::Request.new(api_opts(:get)))
     end
 
     def post
-      @post ||= Api::Call(request: Api::Request.new(api_opts(:post)))
+      @post ||= Api.Call(request: Api::Request.new(api_opts(:post)))
     end
 
     def delete
-      @delete ||= Api::Call(request: Api::Request.new(api_opts(:delete)))
+      @delete ||= Api.Call(request: Api::Request.new(api_opts(:delete)))
     end
 
     def valid_params!(params, klass)
