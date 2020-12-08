@@ -21,6 +21,24 @@ module Nicehash
           expect(total.currencies.size).to be > 1
         end
       end
+
+      describe '#fetch_activities(:currency, :params)' do
+        it 'returns activities for specified :currency, filtered :params' do
+          params = ActivitiesParams.new(limit: 3)
+          activities = client.fetch_activities!(currency: 'BTC', params: params)
+          expect(activities.length).to eq(3)
+          expect(activities[0]).to be_a(Accounting::Activity)
+        end
+      end
+
+      describe '#fetch_transactions(:currency, :params)' do
+        it 'returns activities for specified :currency, filtered :params' do
+          params = TransactionsParams.new(size: 3)
+          txs = client.fetch_transactions!(currency: 'BTC', params: params)
+          expect(txs.length).to eq(3)
+          expect(txs[0]).to be_a(Accounting::Transaction)
+        end
+      end
     end
   end
 end
