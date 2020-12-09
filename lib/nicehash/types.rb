@@ -28,6 +28,7 @@ module Nicehash
     PositiveFloat = Types::Coercible::Float.constrained(gteq: 0.0)
     FloatString = Types.Constructor(Float) { |v| v.to_f }
     IntString = Types.Constructor(Integer) { |v| v.to_i }
+    TimeInt = Types.Constructor(Time) { |v| ::Time.at(v.to_i / 1000) }
   end
 
   BaseStruct = Dry.Struct { transform_keys(&:to_sym) }
