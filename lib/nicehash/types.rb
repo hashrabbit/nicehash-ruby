@@ -28,6 +28,7 @@ module Nicehash
     PositiveFloat = Types::Coercible::Float.constrained(gteq: 0.0)
     FloatString = Types.Constructor(Float) { |v| v.to_f }
     IntString = Types.Constructor(Integer) { |v| v.to_i }
+    StringList = Types.Constructor(String) { |v| v.respond_to?(:join) ? v.join(',') : v }
     TimeInt = Types.Constructor(Time) { |v| ::Time.at(v.to_i / 1000) }
   end
 

@@ -33,7 +33,7 @@ module Nicehash
         total.fmap { |total| Total.new(total) }
       end
 
-      def fetch_transactions(currency:, params: TransactionsParams)
+      def fetch_transactions(currency:, params: TransactionsParams.new)
         valid_params!(params, TransactionsParams)
         transactions = get.call(
           path: "/main/api/v2/accounting/transactions/#{currency}",
